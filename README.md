@@ -55,4 +55,15 @@ img
    - Added Azure Monitor logging via rjlogs.
    - Configured public IP and port 80 for accessibility.
    - Limitation: Couldn’t use VNet/NSG with public IP due to ACI constraints; prioritized accessibility and logging.
- - **Outcome**: Balanced best practices with assignment requirements.  
+ - **Outcome**: Balanced best practices with assignment requirements.
+
+
+### EXTRA: Custom Domain with DuckDNS
+- **Objective**: Add a custom domain to the public ip of the ACI
+ - **Actions**:
+   - Registered khaibcrud.duckdns.org at duckdns.org.
+   - Updated DNS with ACI’s public IP from deployment output.
+   - Tested accessibility without modifying the image.
+- **Why I did it**: Provides a user-friendly URL instead of raw IP address
+- **Outcome**: http://khaibcrud.duckdns.org
+
