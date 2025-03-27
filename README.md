@@ -45,3 +45,14 @@ img
    - docker push acrusername.azurecr.io/mycrudapp:latest
    - if it fails try logging out of docker and logging back in
 
+
+### Step 5: Deploy to Azure Container Instance (ACI) & implement best practises
+- **Objective**: pushing the created docker image to your ACR and implementing best practises
+ - **Actions**:
+   - created aci.bicep file:
+   - file
+   - Used minimal resources (1 CPU, 2 GB memory) to save credits.
+   - Added Azure Monitor logging via rjlogs.
+   - Configured public IP and port 80 for accessibility.
+   - Limitation: Couldn’t use VNet/NSG with public IP due to ACI constraints; prioritized accessibility and logging.
+ - **Outcome**: Balanced best practices with assignment requirements.  
