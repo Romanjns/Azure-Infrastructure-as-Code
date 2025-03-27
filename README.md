@@ -26,3 +26,22 @@ img
 - **Outcome**: Created mycrudapp:latest, ready for ACR.
 
 ### Step 3: Create Azure Container Registry (ACR)
+- **Objective**: Set up ACR to store the container image.
+ - **Actions**:
+   -   Created acr.bicep:
+   -   file
+   -   Deployed ACR:
+   -   az deployment group create --resource-group rj-rg --template-file acr.bicep
+
+
+### Step 4: Pushing docker image to (ACR)
+- **Objective**: pushing the created docker image to your ACR
+ - **Actions**:
+   - cd C:\Users\...\...\CloudManagement\example-flask-crud
+   - az login
+   - docker login acrusername.azurecr.io --username acrusername –password acrpassword
+   - docker tag mycrudapp:latest acrusername.azurecr.io/mycrudapp:latest
+   - check with docker images if your tag has been made
+   - docker push acrusername.azurecr.io/mycrudapp:latest
+   - if it fails try logging out of docker and logging back in
+
