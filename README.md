@@ -66,4 +66,6 @@ img
    - Tested accessibility without modifying the image.
 - **Why I did it**: Provides a user-friendly URL instead of raw IP address
 - **Outcome**: http://khaibcrud.duckdns.org
+- ![image](https://github.com/user-attachments/assets/62c41922-bfc0-4d90-ad05-68149fcb1174)
+
 
