@@ -29,7 +29,33 @@ img
 - **Objective**: Set up ACR to store the container image.
  - **Actions**:
    -   Created acr.bicep:
-   -   file
+     ``` bicep
+     param location string = 'westeurope'
+     param acrName string = 'rjacr2025' // U eigen naam
+
+    // ACR resource met een ondersteunde API-versie
+    resource acr 'Microsoft.ContainerRegistry/registries@2022-12-01' = {
+      name: acrName
+      location: location
+      sku: {
+        name: 'Basic' 
+      }
+      properties: {
+        adminUserEnabled: true
+      }
+    }
+
+    resource acrToken 'Microsoft.ContainerRegistry/registries/tokens@2022-12-01' = {
+      name: 'rjtoken'
+      parent: acr 
+      properties: {
+        scopeMapId: resourceId('Microsoft.ContainerRegistry/registries/scopeMaps', acrName, '_repositories_pull')
+        status: 'enabled'
+      }
+    }
+    
+    output acrLoginServer string = acr.properties.loginServer
+    ```
    -   Deployed ACR:
    -   az deployment group create --resource-group rj-rg --template-file acr.bicep
 
