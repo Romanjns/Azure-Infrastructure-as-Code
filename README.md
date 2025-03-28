@@ -155,6 +155,7 @@ output resourceGroupName string = resourceGroup().name
 output resourceId string = containerGroup.id
 output publicIpAddress string = containerGroup.properties.ipAddress.ip
 output location string = location
+```
 
    - Used minimal resources (1 CPU, 2 GB memory) to save credits.
    - Added Azure Monitor logging via rjlogs.
