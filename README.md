@@ -50,7 +50,8 @@ img
 - **Objective**: pushing the created docker image to your ACR and implementing best practises
  - **Actions**:
    - created aci.bicep file:
-   ```@description('Name for the container group')
+  ```bicep
+@description('Name for the container group')
 param name string = 'rjcrudapp'
 
 @description('Location for all resources')
@@ -153,7 +154,8 @@ output containerGroupName string = containerGroup.name
 output resourceGroupName string = resourceGroup().name
 output resourceId string = containerGroup.id
 output publicIpAddress string = containerGroup.properties.ipAddress.ip
-output location string = location ```
+output location string = location
+
    - Used minimal resources (1 CPU, 2 GB memory) to save credits.
    - Added Azure Monitor logging via rjlogs.
    - Configured public IP and port 80 for accessibility.
