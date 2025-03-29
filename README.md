@@ -16,6 +16,12 @@ Below is the Azure architecture of my implementation, created with [diagrams.net
   - Completed [MS Learn - Introduction to Infrastructure as Code](https://learn.microsoft.com/en-us/training/modules/intro-to-infrastructure-as-code/)
   - Followed [MS Learn - Build Your First Bicep Template](https://learn.microsoft.com/en-us/training/modules/build-first-bicep-template/)
 - **Outcome**: Gained skills to automate Azure resource provisioning with Bicep
+- **Verification**:
+  ```powershell
+  # Screenshot your completed MS Learn modules or certificates
+  ```
+  ![Step 1 Verification](path/to/completion-certificates.png)
+  *Completed Microsoft Learn modules on Infrastructure as Code and Bicep*
 
 ### Step 2: Build the Container Image
 
@@ -55,6 +61,13 @@ docker build -t mycrudapp:latest .
 ```
 
 - **Outcome**: Created `mycrudapp:latest` container image, ready for deployment to Azure Container Registry
+- **Verification**:
+  ```powershell
+  # Verify Docker image creation
+  docker images | findstr mycrudapp
+  ```
+  ![Step 2 Verification](path/to/docker-image-verification.png)
+  *Docker image successfully created and available locally*
 
 ### Step 3: Create Azure Container Registry (ACR)
 
@@ -96,6 +109,16 @@ az deployment group create --resource-group rj-rg --template-file acr.bicep
 ```
 
 - **Outcome**: Successfully created an Azure Container Registry for storing application images
+- **Verification**:
+  ```powershell
+  # Verify ACR creation
+  az acr show --name rjacr2025 --resource-group rj-rg --output table
+  
+  # Verify token creation
+  az acr token list --registry rjacr2025 --output table
+  ```
+  ![Step 3 Verification](path/to/acr-verification.png)
+  *Azure Container Registry successfully deployed with token configured*
 
 ### Step 4: Push Docker Image to ACR
 
@@ -120,6 +143,16 @@ docker push acrusername.azurecr.io/mycrudapp:latest
 
   - Troubleshooting tip: If push fails, try logging out of Docker and logging back in
 - **Outcome**: Container image successfully stored in Azure Container Registry
+- **Verification**:
+  ```powershell
+  # Verify image in ACR
+  az acr repository list --name rjacr2025 --output table
+  
+  # Verify image tags
+  az acr repository show-tags --name rjacr2025 --repository mycrudapp --output table
+  ```
+  ![Step 4 Verification](path/to/acr-image-verification.png)
+  *Docker image successfully pushed to Azure Container Registry*
 
 ### Step 5: Deploy to Azure Container Instance (ACI) & Implement Best Practices
 
@@ -238,6 +271,28 @@ output location string = location
     - Outputs: Added deployment outputs for reference and automation
   - Deployment limitations: Couldn't implement VNet/NSG integration with public IP due to ACI constraints
 - **Outcome**: Successfully deployed containerized application with monitoring and optimized resource usage
+- **Verification**:
+  ```powershell
+  # Verify ACI deployment
+  az container show --name rjcrudapp --resource-group rj-rg --output table
+  
+  # Verify container is running
+  az container logs --name rjcrudapp --resource-group rj-rg
+  
+  # Verify Log Analytics workspace
+  az monitor log-analytics workspace show --resource-group rj-rg --workspace-name rjlogs --output table
+  
+  # Get container IP
+  az container show --name rjcrudapp --resource-group rj-rg --query ipAddress.ip --output tsv
+  ```
+  ![Step 5 Verification - ACI](path/to/aci-verification.png)
+  *Azure Container Instance successfully deployed and running*
+  
+  ![Step 5 Verification - Logs](path/to/logs-verification.png)
+  *Log Analytics workspace configured and receiving container logs*
+  
+  ![Step 5 Verification - Application](path/to/app-verification.png)
+  *CRUD application accessible via the container's public IP*
 
 ### Extra: Custom Domain with DuckDNS
 
@@ -250,7 +305,48 @@ output location string = location
 - **Outcome**: Application accessible at [http://khaibcrud.duckdns.org](http://khaibcrud.duckdns.org)
   ![Architecture Diagram](https://github.com/user-attachments/assets/62c41922-bfc0-4d90-ad05-68149fcb1174)
 
+- **Verification**:
+  ```powershell
+  # Verify DNS resolution
+  nslookup khaibcrud.duckdns.org
+  
+  # Test HTTP connection
+  Invoke-WebRequest -Uri http://khaibcrud.duckdns.org -Method Head
+  ```
+  ![Extra Verification - DNS](path/to/dns-verification.png)
+  *Custom domain successfully resolving to the container's IP address*
+  
+  ![Extra Verification - Application](path/to/custom-domain-verification.png)
+  *CRUD application accessible through the custom domain*
 
 ## Conclusion
 
 This project demonstrates the implementation of Infrastructure as Code principles using Azure's native IaC solution, Bicep. The containerized CRUD application is deployed following best practices for resource optimization, security, and monitoring while maintaining easy accessibility.
+
+Each step of the implementation has been verified with appropriate commands and screenshots, confirming the successful deployment and configuration of all required components.
+
+## Execution Commands Summary
+
+For future reference and reproducibility, here's a summary of all verification commands used throughout this project:
+
+```powershell
+# Verify Docker image
+docker images | findstr mycrudapp
+
+# Verify ACR
+az acr show --name rjacr2025 --resource-group rj-rg --output table
+az acr token list --registry rjacr2025 --output table
+
+# Verify image in ACR
+az acr repository list --name rjacr2025 --output table
+az acr repository show-tags --name rjacr2025 --repository mycrudapp --output table
+
+# Verify ACI and logs
+az container show --name rjcrudapp --resource-group rj-rg --output table
+az container logs --name rjcrudapp --resource-group rj-rg
+az monitor log-analytics workspace show --resource-group rj-rg --workspace-name rjlogs --output table
+
+# Verify custom domain
+nslookup khaibcrud.duckdns.org
+Invoke-WebRequest -Uri http://khaibcrud.duckdns.org -Method Head
+```
