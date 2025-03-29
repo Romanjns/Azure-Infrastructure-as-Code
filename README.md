@@ -325,12 +325,12 @@ output location string = location
 
 ### Extra: Custom Domain with DuckDNS
 
-- **Objective**: Improve user experience by adding a custom domain
+- **Objective**: Improve experience by adding a custom domain
 - **Actions**:
   - Registered `khaibcrud.duckdns.org` at DuckDNS.org
   - Updated DNS records with the container instance's public IP (The IP address in the screenshots differs from previous ones because it was obtained from a newly deployed Azure Container Instance (ACI) for output.)
   - Verified accessibility through the custom domain
-- **Benefits**: Provides a user-friendly URL instead of a raw IP address
+- **Benefits**: Provides a user-friendly URL instead of a raw IP address that is easier to remember than a raw IP address.
 - **Outcome**: Application accessible at [http://khaibcrud.duckdns.org](http://khaibcrud.duckdns.org)
   ![Architecture Diagram](https://github.com/user-attachments/assets/62c41922-bfc0-4d90-ad05-68149fcb1174)
 
