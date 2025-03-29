@@ -132,16 +132,14 @@ param registryUsername string = 'rjacr2025'
 @secure()
 param registryPassword string
 
-// Log Analytics Workspace voor Azure Monitor
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: 'rjlogs'
   location: location
   properties: {
-    sku: { name: 'PerGB2018' } // Goedkope optie
+    sku: { name: 'PerGB2018' }
   }
 }
 
-// ACI resource
 resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01' = {
   name: name
   location: location
@@ -177,7 +175,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
     osType: 'Linux'
     restartPolicy: restartPolicy
     ipAddress: {
-      type: 'Public' // Public IP for direct access
+      type: 'Public'
       ports: [
         {
           port: port
@@ -194,10 +192,10 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
   }
 }
 
-// Set the target resource group
+
 targetScope = 'resourceGroup'
 
-// Outputs
+
 output containerGroupName string = containerGroup.name
 output resourceGroupName string = resourceGroup().name
 output resourceId string = containerGroup.id
